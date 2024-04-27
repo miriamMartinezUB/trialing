@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:trialing/common/index.dart';
@@ -12,7 +13,12 @@ void main() {
 
   LocalizationDelegate delegate = locator<LanguageService>().delegate;
 
-  runApp(LocalizedApp(delegate, const MyApp()));
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) {
+    runApp(LocalizedApp(delegate, const MyApp()));
+  });
 }
 
 class MyApp extends StatelessWidget {
