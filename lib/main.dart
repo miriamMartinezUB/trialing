@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:trialing/common/index.dart';
+import 'package:trialing/resoruces/palette_colors.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: languageService.supportedLocales,
       locale: languageService.currentLocale,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: PaletteMaterialColors.primary,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
