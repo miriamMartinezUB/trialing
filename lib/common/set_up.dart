@@ -16,5 +16,6 @@ class SetUp {
   /// Warning: the order is important, to keep the dependencies right
   Future<void> initializeSetupServices() async {
     await locator<LocaleStorageService>().init();
+    await locator<LanguageService>().initDelegate(localeStorageService);
   }
 }
