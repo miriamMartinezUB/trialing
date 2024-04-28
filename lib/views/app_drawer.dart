@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:trialing/common/index.dart';
-import 'package:trialing/common/main_flow/bloc/main_flow_bloc.dart';
+import 'package:trialing/common/navigation/bloc/navigation_bloc.dart';
+import 'package:trialing/common/navigation/bloc/navigation_event.dart';
+import 'package:trialing/common/navigation/navigation_modal.dart';
 import 'package:trialing/resoruces/dimens.dart';
-import 'package:trialing/resoruces/main_pages_id.dart';
 import 'package:trialing/resoruces/palette_colors.dart';
+import 'package:trialing/resoruces/routes.dart';
 import 'package:trialing/views/texts.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -14,48 +16,43 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PaletteColors paletteColors = locator<ThemeService>().paletteColors;
-    final MainFlowBloc bloc = BlocProvider.of<MainFlowBloc>(context);
+    final NavigatorBloc bloc = BlocProvider.of<NavigatorBloc>(context);
     return SafeArea(
       child: Drawer(
-        backgroundColor: paletteColors.background,
-        child: BlocBuilder<MainFlowBloc, MainFlowState>(
-          bloc: bloc,
-          builder: (context, state) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: Dimens.paddingXLarge),
-                    child: Column(
-                      children: [
-                        DrawerItem(
-                          text: translate('home'),
-                          iconData: Icons.home_outlined,
-                          color: paletteColors.icons,
-                          onTap: () => bloc.add(ChangeMainScreenEvent(itemId: MainPagesId.home)),
-                        ),
-                        DrawerItem(
-                          text: translate('history'),
-                          iconData: Icons.history,
-                          color: paletteColors.icons,
-                          onTap: () => bloc.add(ChangeMainScreenEvent(itemId: MainPagesId.history)),
-                        ),
-                        DrawerItem(
-                          text: translate('settings'),
-                          iconData: Icons.settings,
-                          color: paletteColors.icons,
-                          onTap: () => bloc.add(ChangeMainScreenEvent(itemId: MainPagesId.settings)),
-                        ),
-                      ],
-                    ),
+          backgroundColor: paletteColors.background,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: Dimens.paddingXLarge),
+                  child: Column(
+                    children: [
+                      DrawerItem(
+                        text: translate('home'),
+                        iconData: Icons.home_outlined,
+                        color: paletteColors.icons,
+                        onTap: () => bloc.add(HomeNavigationEvent()),
+                      ),
+                      DrawerItem(
+                        text: translate('history'),
+                        iconData: Icons.history,
+                        color: paletteColors.icons,
+                        onTap: () => bloc.add(PushScreenNavigationEvent(model: NavigationModel(route: Routes.history))),
+                      ),
+                      DrawerItem(
+                        text: translate('settings'),
+                        iconData: Icons.settings,
+                        color: paletteColors.icons,
+                        onTap: () =>
+                            bloc.add(PushScreenNavigationEvent(model: NavigationModel(route: Routes.settings))),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            );
-          },
-        ),
-      ),
+              ),
+            ],
+          )),
     );
   }
 }

@@ -46,6 +46,8 @@ dependencies:
     git: https://github.com/miriamMartinezUB/flutter_stylized_text.git
   table_calendar: ^3.0.9
   uuid: ^4.4.0
+  proste_bezier_curve: ^2.0.2
+
 
 dev_dependencies:
   flutter_test:
