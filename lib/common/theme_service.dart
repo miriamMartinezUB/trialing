@@ -8,17 +8,13 @@ import 'package:trialing/resoruces/storage_keys.dart';
 enum ThemePreference { light, dark }
 
 class ThemeService {
-  final LocaleStorageService _localeStorageService;
+  late LocaleStorageService _localeStorageService;
   late StreamController<bool> themeChange;
-
-  ThemeService(this._localeStorageService) {
-    themeChange = StreamController<bool>.broadcast();
-    themeChange.add(false);
-  }
 
   late ThemePreference _theme;
 
-  void init() {
+  void init(LocaleStorageService localeStorageService) {
+    _localeStorageService = localeStorageService;
     int? themeValue = _localeStorageService.getInt(StorageKeys.themePreference);
     if (themeValue == null) {
       final Brightness brightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
