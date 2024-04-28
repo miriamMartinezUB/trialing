@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:trialing/common/index.dart';
 import 'package:trialing/resoruces/palette_colors.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SetUp setUp = SetUp();
 
-  setUp.initializeSetupServices();
+  await setUp.initializeSetupServices();
 
   LocalizationDelegate delegate = locator<LanguageService>().delegate;
 
