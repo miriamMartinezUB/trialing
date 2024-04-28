@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:trialing/common/language_service.dart';
 import 'package:trialing/common/locale_storage_service.dart';
+import 'package:trialing/common/main_flow/bloc/main_flow_bloc.dart';
 import 'package:trialing/common/navigation/bloc/navigation_bloc.dart';
 import 'package:trialing/common/navigation/navigation_service.dart';
 
@@ -37,6 +38,9 @@ class SetUp {
   List<SingleChildWidget> getProviders(BuildContext context) => [
         BlocProvider<NavigatorBloc>(
           create: (context) => NavigatorBloc(0),
+        ),
+        BlocProvider<MainFlowBloc>(
+          create: (context) => MainFlowBloc(),
         ),
       ];
 }
