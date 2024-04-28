@@ -7,7 +7,6 @@ import 'package:trialing/common/navigation/bloc/navigation_bloc.dart';
 import 'package:trialing/common/navigation/bloc/navigation_event.dart';
 import 'package:trialing/resoruces/dimens.dart';
 import 'package:trialing/resoruces/palette_colors.dart';
-import 'package:trialing/views/calendar_view.dart';
 import 'package:trialing/views/image_view.dart';
 import 'package:trialing/views/page_wrapper/page_wrapper.dart';
 import 'package:trialing/views/texts.dart';
@@ -23,7 +22,7 @@ class HomePage extends StatelessWidget {
       background: paletteColors.primary,
       showAppBar: kIsWeb,
       isMainPage: true,
-      appBarName: kIsWeb ? translate('history') : null,
+      appBarName: kIsWeb ? translate('home') : null,
       onPop: () {
         if (kIsWeb) {
           navigatorBloc.add(BackNavigationEvent());
@@ -48,7 +47,7 @@ class HomePage extends StatelessWidget {
                             const SizedBox(width: Dimens.paddingXLarge),
                             Expanded(
                               child: AppText(
-                                translate('history'),
+                                translate('home'),
                                 type: TextTypes.titleBold,
                                 color: paletteColors.appBar,
                               ),
@@ -77,7 +76,7 @@ class HomePage extends StatelessWidget {
                           children: [
                             /// The random key is important to refresh it every time and get refresh
                             /// after change theme
-                            CalendarView(key: Key('tfgyhbj')),
+                            // CalendarView(key: Key(const Uuid().v4())),
                           ],
                         ),
                       ),
