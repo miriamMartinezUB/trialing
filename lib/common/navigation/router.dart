@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trialing/features/history/history_page.dart';
 import 'package:trialing/features/main/main_page.dart';
+import 'package:trialing/features/medication_schedule/home_page.dart';
+import 'package:trialing/features/settings/settings_page.dart';
 import 'package:trialing/resoruces/routes.dart';
 
 List<RouteBase> routes = [
@@ -13,19 +16,19 @@ List<RouteBase> routes = [
       GoRoute(
         path: Routes.home,
         builder: (BuildContext context, GoRouterState state) {
-          return const Scaffold();
+          return const HomePage();
         },
       ),
       GoRoute(
         path: Routes.history,
         builder: (BuildContext context, GoRouterState state) {
-          return const Scaffold();
+          return const HistoryPage();
         },
       ),
       GoRoute(
         path: Routes.settings,
         builder: (BuildContext context, GoRouterState state) {
-          return const Scaffold();
+          return const SettingsPage();
         },
       ),
     ],
