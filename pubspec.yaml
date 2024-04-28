@@ -44,6 +44,8 @@ dependencies:
   go_router: ^14.0.1
   flutter_stylized_text:
     git: https://github.com/miriamMartinezUB/flutter_stylized_text.git
+  table_calendar: ^3.0.9
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +72,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - locale/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
