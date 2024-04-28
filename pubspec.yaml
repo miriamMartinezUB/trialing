@@ -42,6 +42,9 @@ dependencies:
   get_it: ^7.7.0
   shared_preferences: ^2.2.3
   go_router: ^14.0.1
+  flutter_stylized_text:
+    git: https://github.com/miriamMartinezUB/flutter_stylized_text.git
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

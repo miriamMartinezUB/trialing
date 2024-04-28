@@ -53,10 +53,10 @@ packages:
     dependency: "direct main"
     description:
       name: cupertino_icons
-      sha256: d57953e10f9f8327ce64a508a355f0b1ec902193f66288e8cb5070e7c47eeb2d
+      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.8"
   fake_async:
     dependency: transitive
     description:
@@ -107,6 +107,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_stylized_text:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: ec8eadef139528c4e90bfa3babcf103ca89f06fd
+      url: "https://github.com/miriamMartinezUB/flutter_stylized_text.git"
+    source: git
+    version: "0.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
