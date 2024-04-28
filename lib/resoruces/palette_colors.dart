@@ -7,7 +7,7 @@ class PaletteColors {
   late Color shadow;
   late Color textButton;
   late Color icons;
-  late Color textAppBar;
+  late Color appBar;
   late Color background;
   late Color text;
   late Color textSubtitle;
@@ -17,9 +17,9 @@ class PaletteColors {
 class PaletteColorsLight extends PaletteColors {
   PaletteColorsLight() {
     textButton = const Color(0xffffffff);
-    icons = const Color(0xffffffff);
-    textAppBar = const Color(0xffffffff);
-    background = const Color(0xfffbf7ee);
+    icons = const Color(0xff242e37);
+    appBar = const Color(0xffffffff);
+    background = const Color(0xffE9F3FE);
     text = const Color(0xff242e37);
     textSubtitle = const Color(0xff3f484f);
     card = const Color(0xffffffff);
@@ -29,9 +29,9 @@ class PaletteColorsLight extends PaletteColors {
 
 class PaletteColorsDark extends PaletteColors {
   PaletteColorsDark() {
-    textButton = const Color(0xff242e37);
-    icons = const Color(0xff242e37);
-    textAppBar = const Color(0xff242e37);
+    textButton = const Color(0xffffffff);
+    icons = const Color(0xffffffff);
+    appBar = const Color(0xfff3edf5);
     background = const Color(0xff242e37);
     text = const Color(0xfff3edf5);
     textSubtitle = const Color.fromRGBO(243, 237, 245, .6);
