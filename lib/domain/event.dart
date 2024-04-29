@@ -1,24 +1,18 @@
-import 'package:flutter/widgets.dart';
-import 'package:trialing/domain/medication_schedule.dart';
+import 'package:trialing/domain/pill_taken_hour.dart';
+import 'package:trialing/utils/time_of_day_extension.dart';
 
 abstract class Event {
   final String medicationId;
-  final DateTime? exactHour;
-  final TimeOfDay? timeOfDay;
+  final PillTakingHour pillTakingHour;
   final double dosage;
   final EventType type;
 
   Event({
     required this.medicationId,
-    this.exactHour,
-    this.timeOfDay,
+    required this.pillTakingHour,
     required this.dosage,
     required this.type,
-  }) {
-    if (exactHour == null && timeOfDay == null) {
-      throw FlutterError("You must indicate the exact hour or the time of the day, both cannot be null");
-    }
-  }
+  });
 }
 
 enum EventType { scheduleItem, log }
@@ -28,22 +22,19 @@ class MedicationScheduleEvent extends Event {
 
   MedicationScheduleEvent({
     required String medicationId,
-    DateTime? exactHour,
-    TimeOfDay? timeOfDay,
+    required PillTakingHour pillTakingHour,
     required double dosage,
     this.taken = false,
   }) : super(
           medicationId: medicationId,
           dosage: dosage,
           type: EventType.scheduleItem,
-          timeOfDay: timeOfDay,
-          exactHour: exactHour,
+          pillTakingHour: pillTakingHour,
         );
 
   MedicationScheduleEvent copyWith({required bool taken}) => MedicationScheduleEvent(
         medicationId: medicationId,
-        exactHour: exactHour,
-        timeOfDay: timeOfDay,
+        pillTakingHour: pillTakingHour,
         dosage: dosage,
         taken: taken,
       );
@@ -54,15 +45,22 @@ class MedicationLogEvent extends Event {
 
   MedicationLogEvent({
     required String medicationId,
-    DateTime? exactHour,
-    TimeOfDay? timeOfDay,
+    required PillTakingHour pillTakingHour,
     required double dosage,
     required this.logDate,
   }) : super(
           medicationId: medicationId,
           dosage: dosage,
           type: EventType.scheduleItem,
-          timeOfDay: timeOfDay,
-          exactHour: exactHour,
+          pillTakingHour: pillTakingHour,
         );
+
+  ///Returns whether the medicine has been taken at the correct time.
+  bool getTookAtTime() {
+    DateTime exactHour = pillTakingHour.exactHour.toDateTimeFromDate(logDate);
+    DateTime marginHour = exactHour.add(Duration(minutes: pillTakingHour.marginInMinutes));
+    return logDate.isAtSameMomentAs(exactHour) ||
+        logDate.isAtSameMomentAs(marginHour) ||
+        logDate.isBefore(marginHour) && logDate.isAfter(exactHour);
+  }
 }
