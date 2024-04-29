@@ -4,7 +4,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:trialing/common/index.dart';
 import 'package:trialing/common/main_flow/bloc/main_flow_bloc.dart';
 import 'package:trialing/features/history/history_page.dart';
-import 'package:trialing/features/medication_schedule/home_page.dart';
+import 'package:trialing/features/medication_plan/home_page.dart';
 import 'package:trialing/features/settings/settings_page.dart';
 import 'package:trialing/resoruces/main_pages_id.dart';
 import 'package:trialing/resoruces/palette_colors.dart';
