@@ -18,6 +18,7 @@ enum TextTypes {
   smallBody,
   smallBodyMedium,
   tinyBodyLight,
+  tinyBodyMedium,
   tinyBody,
 }
 
