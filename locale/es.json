@@ -3,7 +3,8 @@
   "history": "Historial",
   "settings": "Configuración",
   "not_medication_events": "No hay ninguna medicación planificada para hoy.",
-  "accept": "Aceptar",
+  "confirm": "Confirmo",
+  "not_yet": "Aún no",
   "fasting": "Al despertar",
   "breakfast": "En el desayuno",
   "lunchTime": "A la hora de la comida",
@@ -19,5 +20,6 @@
   "acetaminophen_description": "Analgésico, hace frente al dolor y la fiebre.",
   "diazepam": "Diazepam",
   "diazepam_description": "Es un relajante muscular que también se emplea para tratar la ansiedad, entre otros usos.",
-  "diazepam_indications": "No conducir ni operar maquinaria pesada, dado que puede producir sueño."
+  "diazepam_indications": "No conducir ni operar maquinaria pesada, dado que puede producir sueño.",
+  "confirmation_title": "¿Se ha tomado realmente la medicación?"
 }

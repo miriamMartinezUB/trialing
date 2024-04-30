@@ -48,19 +48,21 @@ class MedicationScheduleEvent extends Event {
 }
 
 class MedicationLogEvent extends Event {
-  final DateTime logDate;
+  late DateTime logDate;
 
   MedicationLogEvent({
     required String medicationId,
     required PillTakingHour pillTakingHour,
     required double dosage,
-    required this.logDate,
+    DateTime? logDate,
   }) : super(
           medicationId: medicationId,
           dosage: dosage,
           type: EventType.scheduleItem,
           pillTakingHour: pillTakingHour,
-        );
+        ) {
+    this.logDate = logDate ?? DateTime.now();
+  }
 
   ///Returns whether the medicine has been taken at the correct time.
   bool getTookAtTime() {

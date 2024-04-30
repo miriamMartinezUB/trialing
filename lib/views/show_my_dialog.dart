@@ -9,15 +9,15 @@ import 'package:trialing/views/buttons/app_text_button.dart';
 import 'package:trialing/views/texts.dart';
 
 class ShowMyDialog {
-  final String? title;
-  final String text;
+  final String title;
+  final String? text;
   final List<ContentAction>? actions;
 
   late final Color _colorActions;
 
   ShowMyDialog({
     required this.title,
-    required this.text,
+    this.text,
     this.actions,
   });
 
@@ -43,17 +43,18 @@ class ShowMyDialog {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
+          actionsAlignment: MainAxisAlignment.spaceEvenly,
           backgroundColor: paletteColors.card,
-          title: title == null
+          title: AppText(
+            translate(title),
+            type: TextTypes.smallBodyMedium,
+          ),
+          content: text == null
               ? null
               : AppText(
-                  title!,
-                  type: TextTypes.smallBodyMedium,
+                  translate(text!),
+                  type: TextTypes.smallBodyLight,
                 ),
-          content: AppText(
-            text,
-            type: TextTypes.smallBodyLight,
-          ),
           actions: customActions,
         );
       },
@@ -65,9 +66,10 @@ class ShowMyDialog {
     for (ContentAction contentAction in actions) {
       result.add(
         AppTextButton(
-          text: translate(contentAction.textAction),
+          text: contentAction.textAction,
           onTap: contentAction.onPress,
           color: contentAction.color ?? _colorActions,
+          shouldTranslate: true,
         ),
       );
     }

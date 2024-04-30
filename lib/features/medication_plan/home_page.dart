@@ -5,8 +5,15 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:trialing/common/index.dart';
 import 'package:trialing/common/navigation/bloc/navigation_bloc.dart';
 import 'package:trialing/common/navigation/bloc/navigation_event.dart';
+import 'package:trialing/data/database.dart';
+import 'package:trialing/domain/event.dart';
+import 'package:trialing/domain/medication.dart';
+import 'package:trialing/domain/pill_taken_hour.dart';
+import 'package:trialing/features/medication_plan/bloc/medication_plan_bloc.dart';
+import 'package:trialing/features/medication_plan/views/card_medication_reminder.dart';
 import 'package:trialing/resoruces/dimens.dart';
 import 'package:trialing/resoruces/palette_colors.dart';
+import 'package:trialing/utils/time_of_day_extension.dart';
 import 'package:trialing/views/image_view.dart';
 import 'package:trialing/views/page_wrapper/page_wrapper.dart';
 import 'package:trialing/views/texts.dart';
@@ -16,6 +23,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MedicationPlanBloc bloc = MedicationPlanBloc();
     final PaletteColors paletteColors = locator<ThemeService>().paletteColors;
     final NavigatorBloc navigatorBloc = BlocProvider.of<NavigatorBloc>(context);
     return PageWrapper(
@@ -69,15 +77,92 @@ class HomePage extends StatelessWidget {
                               ),
                         color: paletteColors.background,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(Dimens.paddingXLarge),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            /// The random key is important to refresh it every time and get refresh
-                            /// after change theme
-                            // CalendarView(key: Key(const Uuid().v4())),
-                          ],
+                      child: BlocProvider(
+                        create: (context) => bloc,
+                        child: BlocBuilder<MedicationPlanBloc, MedicationPlanState>(
+                          builder: (context, state) {
+                            if (state is MedicationPlanLoadedState) {
+                              return Padding(
+                                padding: const EdgeInsets.all(Dimens.paddingXLarge),
+                                child: Column(
+                                  children: [
+                                    if (state.fastingEvents.isNotEmpty)
+                                      _SectionHome(
+                                        pillTakingHour: PillTakingHour.fasting(),
+                                        events: state.fastingEvents,
+                                        onTap: (MedicationScheduleEvent event) {
+                                          bloc.add(MedicationPlanMarkAsDoneEvent(event: event));
+                                        },
+                                        done: (String id) {
+                                          return state.markedAsDone.contains(id);
+                                        },
+                                      ),
+                                    if (state.breakfastEvents.isNotEmpty)
+                                      _SectionHome(
+                                        pillTakingHour: PillTakingHour.breakfast(),
+                                        events: state.breakfastEvents,
+                                        onTap: (MedicationScheduleEvent event) {
+                                          bloc.add(MedicationPlanMarkAsDoneEvent(event: event));
+                                        },
+                                        done: (String id) {
+                                          return state.markedAsDone.contains(id);
+                                        },
+                                      ),
+                                    if (state.lunchTimeEvents.isNotEmpty)
+                                      _SectionHome(
+                                        pillTakingHour: PillTakingHour.lunchTime(),
+                                        events: state.lunchTimeEvents,
+                                        onTap: (MedicationScheduleEvent event) {
+                                          bloc.add(MedicationPlanMarkAsDoneEvent(event: event));
+                                        },
+                                        done: (String id) {
+                                          return state.markedAsDone.contains(id);
+                                        },
+                                      ),
+                                    if (state.snackEvents.isNotEmpty)
+                                      _SectionHome(
+                                        pillTakingHour: PillTakingHour.snack(),
+                                        events: state.snackEvents,
+                                        onTap: (MedicationScheduleEvent event) {
+                                          bloc.add(MedicationPlanMarkAsDoneEvent(event: event));
+                                        },
+                                        done: (String id) {
+                                          return state.markedAsDone.contains(id);
+                                        },
+                                      ),
+                                    if (state.dinnerEvents.isNotEmpty)
+                                      _SectionHome(
+                                        pillTakingHour: PillTakingHour.dinner(),
+                                        events: state.dinnerEvents,
+                                        onTap: (MedicationScheduleEvent event) {
+                                          bloc.add(MedicationPlanMarkAsDoneEvent(event: event));
+                                        },
+                                        done: (String id) {
+                                          return state.markedAsDone.contains(id);
+                                        },
+                                      ),
+                                    if (state.beforeBedTimeEvents.isNotEmpty)
+                                      _SectionHome(
+                                        pillTakingHour: PillTakingHour.beforeBedTime(),
+                                        events: state.beforeBedTimeEvents,
+                                        showDivider: false,
+                                        onTap: (MedicationScheduleEvent event) {
+                                          bloc.add(MedicationPlanMarkAsDoneEvent(event: event));
+                                        },
+                                        done: (String id) {
+                                          return state.markedAsDone.contains(id);
+                                        },
+                                      ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              if (state is MedicationPlanInitialState) {
+                                bloc.add(MedicationPlanLoadEvent());
+                              }
+                              return const Center(child: CircularProgressIndicator());
+                            }
+                          },
                         ),
                       ),
                     )
@@ -96,6 +181,61 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _SectionHome extends StatelessWidget {
+  final PillTakingHour pillTakingHour;
+  final List<MedicationScheduleEvent> events;
+  final bool showDivider;
+  final Function(MedicationScheduleEvent event) onTap;
+  final bool Function(String id) done;
+
+  const _SectionHome({
+    Key? key,
+    required this.pillTakingHour,
+    required this.events,
+    this.showDivider = true,
+    required this.onTap,
+    required this.done,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Database database = Database();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppText(
+          '${translate(pillTakingHour.timeOfTheDay.name)} ${pillTakingHour.exactHour.toStr()}',
+          type: TextTypes.bodyMedium,
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          primary: false,
+          itemCount: events.length,
+          itemBuilder: (context, index) {
+            MedicationScheduleEvent event = events[index];
+            Medication medication = database.getMedicationById(event.medicationId);
+            return CardMedicationReminder(
+              title: medication.name,
+              description: medication.description,
+              indications: medication.indications,
+              done: done(event.id),
+              onTap: () {
+                onTap(event);
+              },
+            );
+          },
+        ),
+        if (showDivider)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: Dimens.paddingMedium),
+            child: Divider(),
+          ),
+      ],
     );
   }
 }
