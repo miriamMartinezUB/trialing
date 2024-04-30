@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:trialing/common/hive_storage_service.dart';
 import 'package:trialing/common/index.dart';
+import 'package:trialing/common/local_notifications_service.dart';
 import 'package:trialing/common/main_flow/bloc/main_flow_bloc.dart';
 import 'package:trialing/common/navigation/bloc/navigation_bloc.dart';
 import 'package:trialing/common/navigation/navigation_service.dart';
@@ -17,6 +18,7 @@ class SetUp {
   late ThemeService themeService;
   late NavigationService navigationService;
   late HiveStorageService hiveStorageService;
+  late LocalNotificationsService localNotificationsService;
 
   SetUp() {
     localeStorageService = LocaleStorageService();
@@ -24,12 +26,14 @@ class SetUp {
     themeService = ThemeService();
     navigationService = NavigationService();
     hiveStorageService = HiveStorageService();
+    localNotificationsService = LocalNotificationsService();
 
     locator.registerLazySingleton(() => localeStorageService);
     locator.registerLazySingleton(() => languageService);
     locator.registerLazySingleton(() => themeService);
     locator.registerLazySingleton(() => navigationService);
     locator.registerLazySingleton(() => hiveStorageService);
+    locator.registerLazySingleton(() => localNotificationsService);
   }
 
   /// Warning: the order is important, to keep the dependencies right
@@ -38,6 +42,7 @@ class SetUp {
     await locator<LanguageService>().initDelegate(localeStorageService);
     locator<ThemeService>().init(localeStorageService);
     await locator<HiveStorageService>().init();
+    await locator<LocalNotificationsService>().init();
   }
 
   GoRouter get router => navigationService.router;

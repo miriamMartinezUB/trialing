@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:trialing/common/hive_storage_service.dart';
 import 'package:trialing/common/index.dart';
 import 'package:trialing/data/database.dart';
 import 'package:trialing/domain/event.dart';
@@ -17,12 +17,15 @@ class MedicationPlanService {
   DateTime selectedDay = DateTime.now();
   late Box<String> _boxTakenMedications;
   late Box<String> _boxLog;
+  late LocalNotificationsService localNotificationsService;
 
   MedicationPlanService() {
-    _events = [];
     _medicationPlan = Database().medicationPlan;
-    _createAllEvents(_firstDate, _lastDate);
+    _events = _createAllEvents(_firstDate, _lastDate);
     HiveStorageService hiveStorageService = locator<HiveStorageService>();
+    localNotificationsService = locator<LocalNotificationsService>();
+    localNotificationsService.cancelAllNotifications();
+    _scheduleReminders();
     _boxTakenMedications = hiveStorageService.takenMedicationsBox;
     _boxLog = hiveStorageService.logBox;
   }
@@ -35,17 +38,38 @@ class MedicationPlanService {
 
   DateTime get _lastDate => DateTime.now().add(const Duration(days: 1));
 
-  void _createAllEvents(DateTime firstDate, DateTime lastDate) {
+  void _scheduleReminders() {
+    List<MedicationScheduleEvent> remindersEvents = [];
+    remindersEvents.addAll(_events);
+    remindersEvents.addAll(_createAllEvents(_lastDate, _lastDate.add(const Duration(days: 1))));
+    for (MedicationScheduleEvent medicationScheduleEvent in remindersEvents) {
+      DateTime dateTime = DateTime(
+          medicationScheduleEvent.day.year,
+          medicationScheduleEvent.day.month,
+          medicationScheduleEvent.day.day,
+          medicationScheduleEvent.pillTakingHour.exactHour.hour,
+          medicationScheduleEvent.pillTakingHour.exactHour.minute);
+      if (dateTime.isAfter(DateTime.now())) {
+        localNotificationsService.scheduleNotification(
+            dateTime,
+            translate(medicationScheduleEvent.medicationId.toLowerCase()),
+            '${translate('reminder_body')} ${medicationScheduleEvent.dosage} ${translate('reminder_body2')}');
+      }
+    }
+  }
+
+  List<MedicationScheduleEvent> _createAllEvents(DateTime firstDate, DateTime lastDate) {
+    List<MedicationScheduleEvent> events = [];
     for (MedicationSchedule medicationSchedule in _medicationPlan.medications) {
       DateTime currentDate = firstDate;
       DateTime endDate = _getEndDate(lastDate, medicationSchedule.endDate);
       while (!isSameDay(currentDate, endDate) && currentDate.isBefore(endDate)) {
         if (medicationSchedule.frequency == Frequency.personified) {
           if (medicationSchedule.frequencyPersonifiedInDays!.contains(WeekDays.values[currentDate.weekday - 1])) {
-            _addAllEvents(currentDate, medicationSchedule);
+            events.addAll(_addAllEvents(currentDate, medicationSchedule));
           }
         } else {
-          _addAllEvents(currentDate, medicationSchedule);
+          events.addAll(_addAllEvents(currentDate, medicationSchedule));
         }
         currentDate = _updateCurrentDate(
           currentDate: currentDate,
@@ -54,17 +78,20 @@ class MedicationPlanService {
         );
       }
     }
+    return events;
   }
 
-  void _addAllEvents(DateTime currentDate, MedicationSchedule medicationSchedule) {
+  List<MedicationScheduleEvent> _addAllEvents(DateTime currentDate, MedicationSchedule medicationSchedule) {
+    List<MedicationScheduleEvent> events = [];
     for (TimeOfTheDay timeOfTheDay in medicationSchedule.timesOfTheDay) {
-      _events.add(MedicationScheduleEvent(
+      events.add(MedicationScheduleEvent(
         dosage: medicationSchedule.dosage,
         medicationId: medicationSchedule.medicationId,
         pillTakingHour: PillTakingHour.fromTimeOfTheDay(timeOfTheDay),
         day: DateTime(currentDate.year, currentDate.month, currentDate.day),
       ));
     }
+    return events;
   }
 
   DateTime _getEndDate(DateTime lastDate, DateTime? endDate) {

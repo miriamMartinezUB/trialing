@@ -28,5 +28,7 @@
   "light": "Claro",
   "dark": "Oscuro",
   "language_app": "Idioma de la aplicación",
-  "es": "Castellano"
+  "es": "Castellano",
+  "reminder_body": "Recuerde tomarse",
+  "reminder_body2": "pastillas."
 }

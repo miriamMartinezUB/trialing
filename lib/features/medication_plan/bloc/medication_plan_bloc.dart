@@ -11,6 +11,7 @@ part 'medication_plan_state.dart';
 class MedicationPlanBloc extends Bloc<MedicationPlanEvent, MedicationPlanState> {
   MedicationPlanBloc() : super(MedicationPlanInitialState()) {
     MedicationPlanService medicationPlanService = MedicationPlanService();
+
     on<MedicationPlanLoadEvent>((event, emit) async {
       emit(MedicationPlanLoadedState(
         key: Key(const Uuid().v4()),

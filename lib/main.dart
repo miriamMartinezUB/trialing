@@ -31,10 +31,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LanguageService languageService = locator<LanguageService>();
-
     return MultiBlocProvider(
       providers: setUp.getProviders(context),
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

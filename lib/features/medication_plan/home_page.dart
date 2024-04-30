@@ -23,6 +23,11 @@ class HomePage extends StatelessWidget {
     final MedicationPlanBloc bloc = MedicationPlanBloc();
     final PaletteColors paletteColors = locator<ThemeService>().paletteColors;
     final NavigatorBloc navigatorBloc = BlocProvider.of<NavigatorBloc>(context);
+
+    locator<LocalNotificationsService>().selectNotificationStream.stream.listen((String? payload) async {
+      navigatorBloc.add(HomeNavigationEvent());
+    });
+
     return PageWrapper(
       background: paletteColors.primary,
       showAppBar: kIsWeb,
@@ -82,30 +87,30 @@ class HomePage extends StatelessWidget {
                               return Padding(
                                 padding: const EdgeInsets.all(Dimens.paddingXLarge),
                                 child: ListView.builder(
-                                    shrinkWrap: true,
-                                    primary: false,
-                                    itemCount: TimeOfTheDay.values.length,
-                                    itemBuilder: (context, index) {
-                                      TimeOfTheDay timeOfTheDay = TimeOfTheDay.values[index];
-                                      if (timeOfTheDay == TimeOfTheDay.ifNeeded) {
-                                        return const SizedBox();
-                                      }
-                                      List<MedicationScheduleEvent> events =
-                                          state.getEventsByTimeOfTheDay(timeOfTheDay);
-                                      if (events.isEmpty) {
-                                        return const SizedBox();
-                                      }
-                                      return SectionHome(
-                                        pillTakingHour: PillTakingHour.fromTimeOfTheDay(timeOfTheDay),
-                                        events: events,
-                                        onTap: (MedicationScheduleEvent event) {
-                                          bloc.add(MedicationPlanMarkAsDoneEvent(event: event));
-                                        },
-                                        done: (String id) {
-                                          return state.markedAsDone.contains(id);
-                                        },
-                                      );
-                                    }),
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  itemCount: TimeOfTheDay.values.length,
+                                  itemBuilder: (context, index) {
+                                    TimeOfTheDay timeOfTheDay = TimeOfTheDay.values[index];
+                                    if (timeOfTheDay == TimeOfTheDay.ifNeeded) {
+                                      return const SizedBox();
+                                    }
+                                    List<MedicationScheduleEvent> events = state.getEventsByTimeOfTheDay(timeOfTheDay);
+                                    if (events.isEmpty) {
+                                      return const SizedBox();
+                                    }
+                                    return SectionHome(
+                                      pillTakingHour: PillTakingHour.fromTimeOfTheDay(timeOfTheDay),
+                                      events: events,
+                                      onTap: (MedicationScheduleEvent event) {
+                                        bloc.add(MedicationPlanMarkAsDoneEvent(event: event));
+                                      },
+                                      done: (String id) {
+                                        return state.markedAsDone.contains(id);
+                                      },
+                                    );
+                                  },
+                                ),
                               );
                             } else {
                               if (state is MedicationPlanInitialState) {
