@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:provider/provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:trialing/common/index.dart';
 import 'package:trialing/resoruces/palette_colors.dart';
 
@@ -10,6 +11,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SetUp setUp = SetUp();
+
+  await Hive.initFlutter();
 
   await setUp.initializeSetupServices();
 
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final LanguageService languageService = locator<LanguageService>();
 
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: setUp.getProviders(context),
       child: MaterialApp.router(
         title: 'Flutter Demo',
