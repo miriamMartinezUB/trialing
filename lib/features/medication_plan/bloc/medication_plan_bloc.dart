@@ -30,7 +30,6 @@ class MedicationPlanBloc extends Bloc<MedicationPlanEvent, MedicationPlanState> 
         .where((element) => element.pillTakingHour.timeOfTheDay == TimeOfTheDay.beforeBedTime)
         .toList();
     on<MedicationPlanLoadEvent>((event, emit) async {
-      await medicationPlanService.init();
       emit(MedicationPlanLoadedState(
         key: Key(const Uuid().v4()),
         fastingEvents: fastingEvents,

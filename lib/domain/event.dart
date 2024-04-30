@@ -20,7 +20,7 @@ enum EventType { scheduleItem, log }
 
 class MedicationScheduleEvent extends Event {
   late String id;
-  final DateTime day;
+  late DateTime day;
   final bool taken;
 
   MedicationScheduleEvent({

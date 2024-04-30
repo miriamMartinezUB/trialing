@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:trialing/common/hive_storage_service.dart';
+import 'package:trialing/common/index.dart';
 import 'package:trialing/data/database.dart';
 import 'package:trialing/domain/event.dart';
 import 'package:trialing/domain/medication_schedule.dart';
@@ -20,14 +22,12 @@ class MedicationPlanService {
     _events = [];
     _medicationPlan = Database().medicationPlan;
     _createAllEvents();
+    HiveStorageService hiveStorageService = locator<HiveStorageService>();
+    _boxTakenMedications = hiveStorageService.takenMedicationsBox;
+    _boxLog = hiveStorageService.logBox;
   }
 
   List<MedicationScheduleEvent> get events => _events;
-
-  Future<void> init() async {
-    _boxTakenMedications = await Hive.openBox<String>('TakenMedications');
-    _boxLog = await Hive.openBox<String>('logMedications');
-  }
 
   List<String> get taken => _boxTakenMedications.values.toList();
 
@@ -62,7 +62,7 @@ class MedicationPlanService {
         dosage: medicationSchedule.dosage,
         medicationId: medicationSchedule.medicationId,
         pillTakingHour: PillTakingHour.fromTimeOfTheDay(timeOfTheDay),
-        day: currentDate,
+        day: DateTime(currentDate.year, currentDate.month, currentDate.day),
       ));
     }
   }
