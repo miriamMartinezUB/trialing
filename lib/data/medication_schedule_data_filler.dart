@@ -12,7 +12,7 @@ class MedicationScheduleDataFiller {
     MedicationSchedule omeprazole = MedicationSchedule(
       medicationId: MedicationId.omeprazole,
       startDate: DateTime(2024, 4, 1),
-      timeOfTheDay: [TimeOfTheDay.lunchTime, TimeOfTheDay.dinner],
+      timesOfTheDay: [TimeOfTheDay.lunchTime, TimeOfTheDay.dinner],
       dosage: 1,
       frequency: Frequency.daily,
     );
@@ -23,7 +23,7 @@ class MedicationScheduleDataFiller {
       medicationId: MedicationId.ibuprofen,
       startDate: DateTime(2024, 4, 1),
       endDate: DateTime(2024, 5, 5),
-      timeOfTheDay: [TimeOfTheDay.breakfast, TimeOfTheDay.snack, TimeOfTheDay.beforeBedTime],
+      timesOfTheDay: [TimeOfTheDay.breakfast, TimeOfTheDay.snack, TimeOfTheDay.beforeBedTime],
       dosage: 1,
       frequency: Frequency.weekly,
     );
@@ -31,19 +31,20 @@ class MedicationScheduleDataFiller {
     database.addMedicationSchedule(ibuprofen);
 
     MedicationSchedule acetaminophen = MedicationSchedule(
-        medicationId: MedicationId.acetaminophen,
-        startDate: DateTime(2024, 4, 1),
-        timeOfTheDay: [TimeOfTheDay.lunchTime, TimeOfTheDay.dinner],
-        dosage: 1,
-        frequency: Frequency.personified,
-        frequencyPersonifiedInDays: [WeekDays.monday, WeekDays.wednesday, WeekDays.friday]);
+      medicationId: MedicationId.acetaminophen,
+      startDate: DateTime(2024, 4, 1),
+      timesOfTheDay: [TimeOfTheDay.lunchTime, TimeOfTheDay.dinner],
+      dosage: 1,
+      frequency: Frequency.personified,
+      frequencyPersonifiedInDays: [WeekDays.monday, WeekDays.wednesday, WeekDays.friday],
+    );
 
     database.addMedicationSchedule(acetaminophen);
 
     MedicationSchedule diazepam = MedicationSchedule(
       medicationId: MedicationId.diazepam,
       startDate: DateTime(2024, 4, 1),
-      timeOfTheDay: [TimeOfTheDay.beforeBedTime],
+      timesOfTheDay: [TimeOfTheDay.beforeBedTime],
       dosage: 1,
       frequency: Frequency.daily,
     );

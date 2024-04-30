@@ -40,7 +40,7 @@ class MedicationSchedule {
 
   ///This is the list of times when the patient should take the medication.
   ///For example, one before breakfast and one before bedtime.
-  final List<TimeOfTheDay> timeOfTheDay;
+  final List<TimeOfTheDay> timesOfTheDay;
 
   ///Number of pills to take at one time, if you need different dosage you can create another schedule
   final double dosage;
@@ -58,7 +58,7 @@ class MedicationSchedule {
     required this.medicationId,
     required this.startDate,
     this.endDate,
-    required this.timeOfTheDay,
+    required this.timesOfTheDay,
     required this.dosage,
     required this.frequency,
     this.frequencyPersonifiedInDays,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trialing/utils/time_of_day_extension.dart';
 
 enum TimeOfTheDay {
   ///Before breakfast
@@ -25,7 +26,7 @@ enum TimeOfTheDay {
 }
 
 class PillTakingHour {
-  final TimeOfTheDay timeOfDay;
+  final TimeOfTheDay timeOfTheDay;
 
   ///The following fields, as mentioned above, should be customisable, but we will define them ourselves,
   ///depending on the time of the day.
@@ -37,42 +38,78 @@ class PillTakingHour {
   final int marginInMinutes;
 
   PillTakingHour._({
-    required this.timeOfDay,
+    required this.timeOfTheDay,
     required this.exactHour,
     this.marginInMinutes = 0,
   });
 
+  factory PillTakingHour.fromTimeOfTheDay(TimeOfTheDay timeOfTheDay) {
+    switch (timeOfTheDay) {
+      case TimeOfTheDay.fasting:
+        return PillTakingHour.fasting();
+      case TimeOfTheDay.breakfast:
+        return PillTakingHour.breakfast();
+      case TimeOfTheDay.lunchTime:
+        return PillTakingHour.lunchTime();
+      case TimeOfTheDay.snack:
+        return PillTakingHour.snack();
+      case TimeOfTheDay.dinner:
+        return PillTakingHour.dinner();
+      case TimeOfTheDay.beforeBedTime:
+        return PillTakingHour.beforeBedTime();
+      case TimeOfTheDay.ifNeeded:
+        throw FlutterError('Type if needed is not contemplated in this constructor');
+    }
+  }
+
   factory PillTakingHour.fasting() {
     return PillTakingHour._(
-        timeOfDay: TimeOfTheDay.fasting, exactHour: const TimeOfDay(hour: 7, minute: 30), marginInMinutes: 30);
+        timeOfTheDay: TimeOfTheDay.fasting, exactHour: const TimeOfDay(hour: 07, minute: 30), marginInMinutes: 30);
   }
 
   factory PillTakingHour.breakfast() {
     return PillTakingHour._(
-        timeOfDay: TimeOfTheDay.breakfast, exactHour: const TimeOfDay(hour: 8, minute: 30), marginInMinutes: 30);
+        timeOfTheDay: TimeOfTheDay.breakfast, exactHour: const TimeOfDay(hour: 08, minute: 30), marginInMinutes: 30);
   }
 
   factory PillTakingHour.lunchTime() {
     return PillTakingHour._(
-        timeOfDay: TimeOfTheDay.lunchTime, exactHour: const TimeOfDay(hour: 13, minute: 30), marginInMinutes: 30);
+        timeOfTheDay: TimeOfTheDay.lunchTime, exactHour: const TimeOfDay(hour: 13, minute: 30), marginInMinutes: 30);
   }
 
   factory PillTakingHour.snack() {
     return PillTakingHour._(
-        timeOfDay: TimeOfTheDay.snack, exactHour: const TimeOfDay(hour: 18, minute: 0), marginInMinutes: 30);
+        timeOfTheDay: TimeOfTheDay.snack, exactHour: const TimeOfDay(hour: 18, minute: 00), marginInMinutes: 30);
   }
 
   factory PillTakingHour.dinner() {
     return PillTakingHour._(
-        timeOfDay: TimeOfTheDay.dinner, exactHour: const TimeOfDay(hour: 21, minute: 0), marginInMinutes: 30);
+        timeOfTheDay: TimeOfTheDay.dinner, exactHour: const TimeOfDay(hour: 21, minute: 00), marginInMinutes: 30);
   }
 
   factory PillTakingHour.beforeBedTime() {
     return PillTakingHour._(
-        timeOfDay: TimeOfTheDay.beforeBedTime, exactHour: const TimeOfDay(hour: 23, minute: 0), marginInMinutes: 30);
+        timeOfTheDay: TimeOfTheDay.beforeBedTime,
+        exactHour: const TimeOfDay(hour: 23, minute: 00),
+        marginInMinutes: 30);
   }
 
   factory PillTakingHour.ifNeeded({required TimeOfDay exactHour, int marginInMinutes = 0}) {
-    return PillTakingHour._(timeOfDay: TimeOfTheDay.ifNeeded, exactHour: exactHour, marginInMinutes: marginInMinutes);
+    return PillTakingHour._(
+        timeOfTheDay: TimeOfTheDay.ifNeeded, exactHour: exactHour, marginInMinutes: marginInMinutes);
   }
+
+  factory PillTakingHour.fromJson(Map<String, dynamic> json) {
+    return PillTakingHour._(
+      exactHour: ParseToTimeFromString(json['exactHour']).toTimeOfDay(),
+      timeOfTheDay: TimeOfTheDay.values[json['timeOfTheDay']],
+      marginInMinutes: json['marginInMinutes'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'exactHour': exactHour.toStr(),
+        'timeOfTheDay': timeOfTheDay.index,
+        'marginInMinutes': marginInMinutes,
+      };
 }
