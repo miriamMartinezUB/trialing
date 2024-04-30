@@ -106,7 +106,7 @@ class LocalNotificationsService {
     tz.TZDateTime scheduledDate =
         tz.TZDateTime(tz.local, dateTime.year, dateTime.month, dateTime.day, dateTime.hour, dateTime.minute);
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      0,
+      scheduledDate.timeZoneOffset.hashCode + title.hashCode,
       title,
       body,
       scheduledDate,
