@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -23,9 +24,11 @@ class MedicationPlanService {
     _medicationPlan = Database().medicationPlan;
     _events = _createAllEvents(_firstDate, _lastDate);
     HiveStorageService hiveStorageService = locator<HiveStorageService>();
-    localNotificationsService = locator<LocalNotificationsService>();
-    localNotificationsService.cancelAllNotifications();
-    _scheduleReminders();
+    if (!kIsWeb) {
+      localNotificationsService = locator<LocalNotificationsService>();
+      localNotificationsService.cancelAllNotifications();
+      _scheduleReminders();
+    }
     _boxTakenMedications = hiveStorageService.takenMedicationsBox;
     _boxLog = hiveStorageService.logBox;
   }

@@ -1,11 +1,10 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/single_child_widget.dart';
-import 'package:trialing/common/hive_storage_service.dart';
 import 'package:trialing/common/index.dart';
-import 'package:trialing/common/local_notifications_service.dart';
 import 'package:trialing/common/main_flow/bloc/main_flow_bloc.dart';
 import 'package:trialing/common/navigation/bloc/navigation_bloc.dart';
 import 'package:trialing/common/navigation/navigation_service.dart';
@@ -42,7 +41,9 @@ class SetUp {
     await locator<LanguageService>().initDelegate(localeStorageService);
     locator<ThemeService>().init(localeStorageService);
     await locator<HiveStorageService>().init();
-    await locator<LocalNotificationsService>().init();
+    if (!kIsWeb) {
+      await locator<LocalNotificationsService>().init();
+    }
   }
 
   GoRouter get router => navigationService.router;
