@@ -30,7 +30,7 @@ class Database {
     _medicationPlan.copyWith(medications: medications);
   }
 
-  void get medicationPlan => _medicationPlan;
+  MedicationPlan get medicationPlan => _medicationPlan;
 
   List<Medication> get medications => _medications.values.toList();
 }
