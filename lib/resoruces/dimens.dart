@@ -25,5 +25,6 @@ class Dimens {
   static const double radiusXLarge = 32;
 
   static const double iconSmall = 16;
+  static const double iconMedium = 28;
   static const double iconXLarge = 100;
 }
