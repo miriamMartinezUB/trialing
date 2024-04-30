@@ -2,7 +2,7 @@
   "home": "Plan de medicación",
   "history": "Historial",
   "settings": "Configuración",
-  "not_medication_events": "No hay ninguna medicación planificada para hoy.",
+  "not_taken_medication_events": "No tomo ninguna medicación.",
   "confirm": "Confirmo",
   "not_yet": "Aún no",
   "fasting": "Al despertar",
