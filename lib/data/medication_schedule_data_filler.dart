@@ -24,7 +24,7 @@ class MedicationScheduleDataFiller {
       startDate: DateTime(2024, 4, 1),
       endDate: DateTime(2024, 5, 5),
       timesOfTheDay: [TimeOfTheDay.breakfast, TimeOfTheDay.snack, TimeOfTheDay.beforeBedTime],
-      dosage: 1,
+      dosage: 1.5,
       frequency: Frequency.weekly,
     );
 
@@ -34,7 +34,7 @@ class MedicationScheduleDataFiller {
       medicationId: MedicationId.acetaminophen,
       startDate: DateTime(2024, 4, 1),
       timesOfTheDay: [TimeOfTheDay.lunchTime, TimeOfTheDay.dinner],
-      dosage: 1,
+      dosage: 2,
       frequency: Frequency.personified,
       frequencyPersonifiedInDays: [WeekDays.monday, WeekDays.wednesday, WeekDays.friday],
     );

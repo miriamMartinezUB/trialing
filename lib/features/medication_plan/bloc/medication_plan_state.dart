@@ -9,22 +9,19 @@ class MedicationPlanLoadingState extends MedicationPlanState {
 }
 
 class MedicationPlanLoadedState extends MedicationPlanState {
-  final List<MedicationScheduleEvent> fastingEvents;
-  final List<MedicationScheduleEvent> breakfastEvents;
-  final List<MedicationScheduleEvent> lunchTimeEvents;
-  final List<MedicationScheduleEvent> snackEvents;
-  final List<MedicationScheduleEvent> dinnerEvents;
-  final List<MedicationScheduleEvent> beforeBedTimeEvents;
+  final List<MedicationScheduleEvent> events;
   final List<String> markedAsDone;
 
   MedicationPlanLoadedState({
     Key? key,
-    required this.fastingEvents,
-    required this.breakfastEvents,
-    required this.lunchTimeEvents,
-    required this.snackEvents,
-    required this.dinnerEvents,
-    required this.beforeBedTimeEvents,
+    required this.events,
     required this.markedAsDone,
   });
+
+  List<MedicationScheduleEvent> getEventsByTimeOfTheDay(TimeOfTheDay timeOfTheDay) {
+    if (timeOfTheDay == TimeOfTheDay.ifNeeded) {
+      throw FlutterError("Not implemented");
+    }
+    return events.where((element) => element.pillTakingHour.timeOfTheDay == timeOfTheDay).toList();
+  }
 }

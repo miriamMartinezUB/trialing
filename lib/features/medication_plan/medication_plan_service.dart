@@ -21,7 +21,7 @@ class MedicationPlanService {
   MedicationPlanService() {
     _events = [];
     _medicationPlan = Database().medicationPlan;
-    _createAllEvents();
+    _createAllEvents(_firstDate, _lastDate);
     HiveStorageService hiveStorageService = locator<HiveStorageService>();
     _boxTakenMedications = hiveStorageService.takenMedicationsBox;
     _boxLog = hiveStorageService.logBox;
@@ -35,13 +35,13 @@ class MedicationPlanService {
 
   DateTime get _lastDate => DateTime.now().add(const Duration(days: 1));
 
-  void _createAllEvents() {
+  void _createAllEvents(DateTime firstDate, DateTime lastDate) {
     for (MedicationSchedule medicationSchedule in _medicationPlan.medications) {
-      DateTime currentDate = _firstDate;
-      DateTime endDate = _getEndDate(medicationSchedule.endDate);
+      DateTime currentDate = firstDate;
+      DateTime endDate = _getEndDate(lastDate, medicationSchedule.endDate);
       while (!isSameDay(currentDate, endDate) && currentDate.isBefore(endDate)) {
         if (medicationSchedule.frequency == Frequency.personified) {
-          if (medicationSchedule.frequencyPersonifiedInDays!.contains(WeekDays.values[currentDate.weekday])) {
+          if (medicationSchedule.frequencyPersonifiedInDays!.contains(WeekDays.values[currentDate.weekday - 1])) {
             _addAllEvents(currentDate, medicationSchedule);
           }
         } else {
@@ -67,12 +67,12 @@ class MedicationPlanService {
     }
   }
 
-  DateTime _getEndDate(DateTime? endDate) {
+  DateTime _getEndDate(DateTime lastDate, DateTime? endDate) {
     if (endDate == null) {
-      return _lastDate;
+      return lastDate;
     }
-    if (endDate.isAfter(_lastDate)) {
-      return _lastDate;
+    if (endDate.isAfter(lastDate)) {
+      return lastDate;
     }
     return endDate;
   }
@@ -87,7 +87,7 @@ class MedicationPlanService {
     } else if (frequency == Frequency.daily) {
       days = 1;
     } else if (frequency == Frequency.personified) {
-      WeekDays currentWeekDay = WeekDays.values[currentDate.weekday];
+      WeekDays currentWeekDay = WeekDays.values[currentDate.weekday - 1];
       if (frequencyPersonifiedInDays!.contains(currentWeekDay)) {
         int indexOfCurrentWeekDay = frequencyPersonifiedInDays.indexOf(currentWeekDay);
         days = frequencyPersonifiedInDays[indexOfCurrentWeekDay + 1].index -

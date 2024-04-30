@@ -11,33 +11,10 @@ part 'medication_plan_state.dart';
 class MedicationPlanBloc extends Bloc<MedicationPlanEvent, MedicationPlanState> {
   MedicationPlanBloc() : super(MedicationPlanInitialState()) {
     MedicationPlanService medicationPlanService = MedicationPlanService();
-    List<MedicationScheduleEvent> fastingEvents = medicationPlanService.events
-        .where((element) => element.pillTakingHour.timeOfTheDay == TimeOfTheDay.fasting)
-        .toList();
-    List<MedicationScheduleEvent> breakfastEvents = medicationPlanService.events
-        .where((element) => element.pillTakingHour.timeOfTheDay == TimeOfTheDay.breakfast)
-        .toList();
-    List<MedicationScheduleEvent> lunchTimeEvents = medicationPlanService.events
-        .where((element) => element.pillTakingHour.timeOfTheDay == TimeOfTheDay.lunchTime)
-        .toList();
-    List<MedicationScheduleEvent> snackEvents = medicationPlanService.events
-        .where((element) => element.pillTakingHour.timeOfTheDay == TimeOfTheDay.snack)
-        .toList();
-    List<MedicationScheduleEvent> dinnerEvents = medicationPlanService.events
-        .where((element) => element.pillTakingHour.timeOfTheDay == TimeOfTheDay.dinner)
-        .toList();
-    List<MedicationScheduleEvent> beforeBedTimeEvents = medicationPlanService.events
-        .where((element) => element.pillTakingHour.timeOfTheDay == TimeOfTheDay.beforeBedTime)
-        .toList();
     on<MedicationPlanLoadEvent>((event, emit) async {
       emit(MedicationPlanLoadedState(
         key: Key(const Uuid().v4()),
-        fastingEvents: fastingEvents,
-        breakfastEvents: breakfastEvents,
-        lunchTimeEvents: lunchTimeEvents,
-        snackEvents: snackEvents,
-        dinnerEvents: dinnerEvents,
-        beforeBedTimeEvents: beforeBedTimeEvents,
+        events: medicationPlanService.events,
         markedAsDone: medicationPlanService.taken,
       ));
     });
@@ -46,12 +23,7 @@ class MedicationPlanBloc extends Bloc<MedicationPlanEvent, MedicationPlanState> 
       medicationPlanService.markEventAsDone(event.event);
       emit(MedicationPlanLoadedState(
         key: Key(const Uuid().v4()),
-        fastingEvents: fastingEvents,
-        breakfastEvents: breakfastEvents,
-        lunchTimeEvents: lunchTimeEvents,
-        snackEvents: snackEvents,
-        dinnerEvents: dinnerEvents,
-        beforeBedTimeEvents: beforeBedTimeEvents,
+        events: medicationPlanService.events,
         markedAsDone: medicationPlanService.taken,
       ));
     });
