@@ -1,5 +1,23 @@
 {
   "home": "Plan de medicación",
   "history": "Historial",
-  "settings": "Configuración"
+  "settings": "Configuración",
+  "not_medication_events": "No hay ninguna medicación planificada para hoy.",
+  "accept": "Aceptar",
+  "fasting": "Al despertar",
+  "breakfast": "En el desayuno",
+  "lunchTime": "A la hora de la comida",
+  "snack": "En la merienda",
+  "dinner": "A la hora de cenar",
+  "beforeBedTime": "Antes de irse a dormir",
+  "omeprazole": "Omeoprazol",
+  "omeprazole_description": "Protector de estómago, ayuda a controlar la acidez estomacal frecuente",
+  "omeprazole_indications": "Tomar antes de comer y de otros medicamentos",
+  "ibuprofen": "Ibuprofeno",
+  "ibuprofen_description": "Antiinflamatorio, alivia el dolor y baja la fiebre",
+  "acetaminophen": "Paracetamol",
+  "acetaminophen_description": "Analgésico, hace frente al dolor y la fiebre.",
+  "diazepam": "Diazepam",
+  "diazepam_description": "Es un relajante muscular que también se emplea para tratar la ansiedad, entre otros usos.",
+  "diazepam_indications": "No conducir ni operar maquinaria pesada, dado que puede producir sueño."
 }
