@@ -1,4 +1,5 @@
 import 'package:trialing/domain/pill_taken_hour.dart';
+import 'package:trialing/utils/medication_schedule_event_extension.dart';
 import 'package:trialing/utils/time_of_day_extension.dart';
 
 abstract class Event {
@@ -18,9 +19,12 @@ abstract class Event {
 enum EventType { scheduleItem, log }
 
 class MedicationScheduleEvent extends Event {
+  late String id;
+  final DateTime day;
   final bool taken;
 
   MedicationScheduleEvent({
+    required this.day,
     required String medicationId,
     required PillTakingHour pillTakingHour,
     required double dosage,
@@ -30,9 +34,12 @@ class MedicationScheduleEvent extends Event {
           dosage: dosage,
           type: EventType.scheduleItem,
           pillTakingHour: pillTakingHour,
-        );
+        ) {
+    id = getId();
+  }
 
   MedicationScheduleEvent copyWith({required bool taken}) => MedicationScheduleEvent(
+        day: day,
         medicationId: medicationId,
         pillTakingHour: pillTakingHour,
         dosage: dosage,
@@ -63,4 +70,20 @@ class MedicationLogEvent extends Event {
         logDate.isAtSameMomentAs(marginHour) ||
         logDate.isBefore(marginHour) && logDate.isAfter(exactHour);
   }
+
+  factory MedicationLogEvent.fromJson(Map<String, dynamic> json) {
+    return MedicationLogEvent(
+      medicationId: json['medicationId'],
+      pillTakingHour: PillTakingHour.fromJson(json['pillTakingHour']),
+      dosage: json['dosage'],
+      logDate: DateTime.parse(json['logDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'medicationId': medicationId,
+        'pillTakingHour': pillTakingHour.toJson(),
+        'dosage': dosage,
+        'logDate': logDate.toString(),
+      };
 }
