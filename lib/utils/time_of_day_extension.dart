@@ -22,3 +22,9 @@ extension ParseToTimeFromString on String {
     return TimeOfDay(hour: hour, minute: minute);
   }
 }
+
+extension ParseToTimeFromDateTime on DateTime {
+  TimeOfDay toTimeOfDay() {
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+}

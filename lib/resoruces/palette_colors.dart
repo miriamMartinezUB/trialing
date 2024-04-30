@@ -4,6 +4,7 @@ class PaletteColors {
   Color primary = const Color(0xff242767);
   Color secondary = const Color(0xffE9F3FE);
   Color active = const Color(0xff3066A9);
+  Color error = const Color(0xffCB3234);
   late Color shadow;
   late Color textButton;
   late Color icons;

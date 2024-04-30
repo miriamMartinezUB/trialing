@@ -3,9 +3,9 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:trialing/common/index.dart';
 import 'package:trialing/domain/event.dart';
+import 'package:trialing/features/history/views/card_event_view.dart';
 import 'package:trialing/resoruces/dimens.dart';
 import 'package:trialing/resoruces/palette_colors.dart';
-import 'package:trialing/views/calendar/card_event_view.dart';
 import 'package:trialing/views/texts.dart';
 
 class CalendarView extends StatelessWidget {
@@ -14,8 +14,8 @@ class CalendarView extends StatelessWidget {
   final CalendarFormat calendarFormat;
   final Function(DateTime selectedDay, DateTime focusedDay) onDaySelected;
   final Function(CalendarFormat format) onFormatChanged;
-  final List<Event> Function(DateTime day) getEventsForDay;
-  final List<Event> eventsForDay;
+  final List<MedicationLogEvent> Function(DateTime day) getEventsForDay;
+  final List<MedicationLogEvent> eventsForDay;
   final String notEvents;
   late DateTime _focusedDay;
   late DateTime _selectedDay;
@@ -44,6 +44,7 @@ class CalendarView extends StatelessWidget {
     final TextStyle tinyTextStyle = getTextStyle(paletteColors: paletteColors, type: TextTypes.tinyBody);
     final TextStyle smallTextStyle = getTextStyle(paletteColors: paletteColors, type: TextTypes.smallBody);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TableCalendar(
           daysOfWeekStyle: DaysOfWeekStyle(
@@ -103,7 +104,7 @@ class CalendarView extends StatelessWidget {
           onFormatChanged: onFormatChanged,
           onPageChanged: (focusedDay) => focusedDay = focusedDay,
         ),
-        const SizedBox(height: 8.0),
+        const SizedBox(height: Dimens.paddingLarge),
         if (eventsForDay.isEmpty)
           AppText(translate(notEvents))
         else

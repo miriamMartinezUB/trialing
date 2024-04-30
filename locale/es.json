@@ -21,5 +21,7 @@
   "diazepam": "Diazepam",
   "diazepam_description": "Es un relajante muscular que también se emplea para tratar la ansiedad, entre otros usos.",
   "diazepam_indications": "No conducir ni operar maquinaria pesada, dado que puede producir sueño.",
-  "confirmation_title": "¿Se ha tomado realmente la medicación?"
+  "confirmation_title": "¿Se ha tomado realmente la medicación?",
+  "taken_hour": "Hora de la toma",
+  "real_taken_hour": "Hora real de la toma"
 }

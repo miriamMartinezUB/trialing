@@ -5,14 +5,12 @@ import 'package:trialing/resoruces/palette_colors.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;
-  final Alignment alignment;
   final Function()? onTap;
 
   const AppCard({
     Key? key,
     required this.child,
-    required this.alignment,
-    required this.onTap,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -24,10 +22,7 @@ class AppCard extends StatelessWidget {
       highlightColor: Colors.transparent,
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.only(
-          top: alignment == Alignment.topRight ? Dimens.paddingLarge : 0,
-          bottom: alignment == Alignment.bottomRight ? Dimens.paddingLarge : 0,
-        ),
+        margin: const EdgeInsets.only(top: Dimens.paddingLarge),
         padding: const EdgeInsets.all(Dimens.paddingLarge),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimens.radiusMedium),
