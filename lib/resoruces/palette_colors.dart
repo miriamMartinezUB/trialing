@@ -33,11 +33,11 @@ class PaletteColorsDark extends PaletteColors {
     textButton = const Color(0xffffffff);
     icons = const Color(0xffffffff);
     appBar = const Color(0xfff3edf5);
-    background = const Color(0xff242e37);
+    background = const Color(0xff323d46);
     text = const Color(0xfff3edf5);
     textSubtitle = const Color.fromRGBO(243, 237, 245, .6);
-    card = const Color(0xff3f484f);
-    shadow = const Color(0xff3f484f).withOpacity(0.4);
+    card = const Color(0xff495259);
+    shadow = const Color(0xff495259).withOpacity(0.4);
   }
 }
 

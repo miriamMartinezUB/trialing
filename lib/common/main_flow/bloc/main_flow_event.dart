@@ -7,3 +7,5 @@ class ChangeMainScreenEvent extends MainFlowEvent {
 
   ChangeMainScreenEvent({required this.itemId});
 }
+
+class RefreshMainScreenEvent extends MainFlowEvent {}

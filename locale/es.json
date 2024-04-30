@@ -23,5 +23,10 @@
   "diazepam_indications": "No conducir ni operar maquinaria pesada, dado que puede producir sueño.",
   "confirmation_title": "¿Se ha tomado realmente la medicación?",
   "taken_hour": "Hora de la toma",
-  "real_taken_hour": "Hora real de la toma"
+  "real_taken_hour": "Hora real de la toma",
+  "theme_app": "Tema de la aplicación",
+  "light": "Claro",
+  "dark": "Oscuro",
+  "language_app": "Idioma de la aplicación",
+  "es": "Castellano"
 }

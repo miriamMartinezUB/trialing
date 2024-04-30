@@ -1,15 +1,15 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:trialing/common/locale_storage_service.dart';
 import 'package:trialing/resoruces/palette_colors.dart';
 import 'package:trialing/resoruces/storage_keys.dart';
 
-enum ThemePreference { light, dark }
+enum ThemePreference {
+  light,
+  dark,
+}
 
 class ThemeService {
   late LocaleStorageService _localeStorageService;
-  late StreamController<bool> themeChange;
 
   late ThemePreference _theme;
 
@@ -29,11 +29,16 @@ class ThemeService {
 
   PaletteColors get paletteColors => _theme == ThemePreference.light ? PaletteColorsLight() : PaletteColorsDark();
 
-  void setTheme(ThemePreference themePreference) {
-    _theme = themePreference;
-    themeChange.add(true);
+  void setTheme(String themePreference) {
+    if (themePreference == ThemePreference.light.name) {
+      _theme = ThemePreference.light;
+    } else {
+      _theme = ThemePreference.dark;
+    }
     _saveCurrentTheme();
   }
 
   void _saveCurrentTheme() => _localeStorageService.saveInt(StorageKeys.themePreference, _theme.index);
+
+  List<String> get themes => [ThemePreference.light.name, ThemePreference.dark.name];
 }

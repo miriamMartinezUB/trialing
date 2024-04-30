@@ -15,7 +15,6 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PaletteColors paletteColors = locator<ThemeService>().paletteColors;
     final MainFlowBloc mainFlowBloc = BlocProvider.of<MainFlowBloc>(context);
     List<Widget> screens = [
       const HomePage(),
@@ -26,6 +25,7 @@ class MainPage extends StatelessWidget {
     return BlocBuilder<MainFlowBloc, MainFlowState>(
       bloc: mainFlowBloc,
       builder: (context, MainFlowState state) {
+        final PaletteColors paletteColors = locator<ThemeService>().paletteColors;
         return Scaffold(
           body: screens[state.itemId.index],
           bottomNavigationBar: BottomNavigationBar(
