@@ -28,7 +28,7 @@ class CardEventView extends StatelessWidget {
             children: [
               Expanded(
                 child: AppText(
-                  translate(event.medicationId),
+                  translate(event.medicationId.toLowerCase()),
                   type: TextTypes.bodyBold,
                 ),
               ),
