@@ -120,8 +120,14 @@ class MedicationPlanService {
       WeekDays currentWeekDay = WeekDays.values[currentDate.weekday - 1];
       if (frequencyPersonifiedInDays!.contains(currentWeekDay)) {
         int indexOfCurrentWeekDay = frequencyPersonifiedInDays.indexOf(currentWeekDay);
-        days = frequencyPersonifiedInDays[indexOfCurrentWeekDay + 1].index -
-            frequencyPersonifiedInDays[indexOfCurrentWeekDay].index;
+        int indexNextWeekday = indexOfCurrentWeekDay + 1;
+        if (indexNextWeekday >= frequencyPersonifiedInDays.length) {
+          indexNextWeekday = 0;
+        }
+        days = (frequencyPersonifiedInDays[indexNextWeekday].index -
+                frequencyPersonifiedInDays[indexOfCurrentWeekDay].index +
+                7) %
+            7;
       } else {
         days = 1;
       }
